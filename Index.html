@@ -5,19 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OCL</title>
     <style>
-		
-		header {
-  border-bottom: none !important;
-  box-shadow: none !important;
-}
-		
-		footer {
-  border-top: none !important;
-}
-		
-		.music-embed {
-  margin-bottom: 60px; 
-}
         * {
             margin: 0;
             padding: 0;
@@ -46,10 +33,9 @@
             justify-content: center;
             gap: 60px;
             background: rgba(243, 244, 241, 0.95);
-            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
             z-index: 100;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            border-bottom: none;
         }
 
         nav a {
@@ -60,6 +46,12 @@
             text-transform: uppercase;
             position: relative;
             transition: color 0.3s ease;
+        }
+
+        nav a.mobile-nav-logo {
+            font-size: 0;
+            letter-spacing: 0;
+            text-transform: none;
         }
 
         nav a.active {
@@ -77,6 +69,10 @@
             transition: width 0.3s ease;
         }
 
+        nav a.mobile-nav-logo::after {
+            display: none;
+        }
+
         nav a.active::after {
             width: 100%;
         }
@@ -85,20 +81,31 @@
             width: 100%;
         }
 
-        /* HAMBURGER ICON (minimal additions) - now positioned LEFT */
+        /* Mobile Logo in Nav */
+        .mobile-nav-logo {
+            display: none;
+        }
+
+        .mobile-nav-logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        /* Hamburger */
         .hamburger {
-            display: none; /* show only on small screens */
+            display: none;
             flex-direction: column;
             justify-content: space-between;
             width: 26px;
             height: 18px;
             position: absolute;
-            left: 30px;               /* <-- moved to left side */
+            left: 30px;
             top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
             z-index: 150;
         }
+        
         .hamburger span {
             display: block;
             height: 2px;
@@ -106,12 +113,15 @@
             background: #1a1a1a;
             transition: all 0.3s ease;
         }
+        
         .hamburger.active span:nth-child(1) {
             transform: rotate(45deg) translateY(7px);
         }
+        
         .hamburger.active span:nth-child(2) {
             opacity: 0;
         }
+        
         .hamburger.active span:nth-child(3) {
             transform: rotate(-45deg) translateY(-7px);
         }
@@ -122,8 +132,7 @@
             gap: 40px;
             justify-content: center;
             align-items: center;
-			margin-top: 80px;
-			
+            margin-top: 80px;
         }
 
         .home-socials a {
@@ -160,7 +169,6 @@
             }
         }
 
-        /* Stagger animation delays */
         #home { animation-delay: 0.1s; }
         #about { animation-delay: 0.2s; }
         #music { animation-delay: 0.3s; }
@@ -182,13 +190,10 @@
             max-width: 500px;
             width: 100%;
             height: auto;
+            transform: scale(1.7);
         }
 
         /* ABOUT Section */
-        #about {
-            animation-delay: 0.2s;
-        }
-
         .about-container {
             max-width: 1200px;
             display: grid;
@@ -204,20 +209,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            color: #666;
             overflow: hidden;
             position: relative;
-		
-        
-	}
-		
-		.OCL-image{
-			padding: 20px
-				
-			
-		}
+        }
 
         .about-image::before {
             content: '';
@@ -285,14 +279,39 @@
             left: 0;
         }
 
-        /* MUSIC Section */
-        #music {
+        /* MUSIC/MIXES Section */
+        #music, #mixes {
             flex-direction: column;
         }
 
-        /* MIXES Section */
-        #mixes {
-            flex-direction: column;
+        .music-container {
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .music-container h2 {
+            font-size: 3rem;
+            margin-bottom: 60px;
+            letter-spacing: 2px;
+            font-weight: 400;
+            text-align: center;
+        }
+
+        .embed-container {
+            margin-bottom: 40px;
+            border-radius: 4px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .embed-container:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .embed-container iframe {
+            width: 100%;
+            border: none;
         }
 
         /* MEDIA Section */
@@ -332,41 +351,10 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
-        .video-container video,
         .video-container iframe {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border: none;
-        }
-
-        .music-container {
-            max-width: 1000px;
-            width: 100%;
-        }
-
-        .music-container h2 {
-            font-size: 3rem;
-            margin-bottom: 60px;
-            letter-spacing: 2px;
-            font-weight: 400;
-            text-align: center;
-        }
-
-        .embed-container {
-            margin-bottom: 40px;
-            border-radius: 4px;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .embed-container:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .embed-container iframe {
-            width: 100%;
             border: none;
         }
 
@@ -439,80 +427,11 @@
             opacity: 0.6;
         }
 
-        .contact-form {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            font-size: 0.85rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            color: #1a1a1a;
-            font-weight: 400;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            padding: 15px;
-            border: 1px solid #d4d4d4;
-            background: rgba(255, 255, 255, 0.5);
-            font-family: 'Didot', 'Didot LT STD', 'Hoefler Text', 'Garamond', 'Times New Roman', serif;
-            font-size: 1rem;
-            color: #1a1a1a;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #1a1a1a;
-        }
-
-        .form-group textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-
-        .submit-btn {
-            padding: 18px 40px;
-            background: #1a1a1a;
-            color: #f3f4f1;
-            border: none;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-size: 0.9rem;
-            font-family: 'Didot', 'Didot LT STD', 'Hoefler Text', 'Garamond', 'Times New Roman', serif;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .submit-btn:hover {
-            background: #333;
-            transform: translateY(-2px);
-        }
-
-        .submit-btn svg {
-            width: 18px;
-            height: 18px;
-        }
-
         /* Footer */
         footer {
             padding: 40px 60px;
             text-align: center;
-            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            border-top: none;
             background: #f3f4f1;
         }
 
@@ -524,7 +443,6 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            /* show hamburger and hide native anchors until menu open */
             .hamburger {
                 display: flex;
             }
@@ -542,11 +460,11 @@
                 transition: opacity 0.25s ease;
             }
 
-            /* when nav has .open, show anchors stacked */
             nav.open {
                 flex-direction: column;
                 align-items: center;
             }
+            
             nav.open a {
                 display: block;
                 opacity: 1;
@@ -558,7 +476,17 @@
             }
 
             .logo-container img {
-                max-width: 300px;
+                max-width: 250px;
+                transform: scale(1.2);
+            }
+
+            .home-socials {
+                gap: 25px;
+                margin-top: 60px;
+            }
+
+            .home-socials img {
+                height: 28px;
             }
 
             .about-container {
@@ -591,31 +519,47 @@
                 padding: 30px 20px;
             }
         }
+
+        @media (max-width: 480px) {
+            .logo-container img {
+                max-width: 200px;
+                transform: scale(1);
+            }
+
+            .home-socials {
+                gap: 20px;
+                margin-top: 50px;
+            }
+
+            .home-socials img {
+                height: 24px;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
     <nav id="navbar">
-        <!-- hamburger (only visible on small screens) - moved to left -->
         <div class="hamburger" id="hamburger" aria-label="Toggle menu" role="button" tabindex="0">
             <span></span>
             <span></span>
             <span></span>
         </div>
 
-        <!-- original nav links (kept exactly as you had them) -->
-        <a href="#home">HOME</a>
-        <a href="#about">ABOUT</a>
-        <a href="#music">MUSIC</a>
-        <a href="#mixes">MIXES</a>
-        <a href="#media">MEDIA</a>
-        <a href="#contact">CONTACT</a>
+        <a href="#home" class="mobile-nav-logo">
+            <img src="https://raw.githubusercontent.com/OCLmusic/OCL-WEBSITE-ASSETS/refs/heads/main/OC%20LOGO-01.svg" alt="OCL">
+        </a>
+
+        <a href="#home" class="nav-link">HOME</a>
+        <a href="#about" class="nav-link">ABOUT</a>
+        <a href="#music" class="nav-link">MUSIC</a>
+        <a href="#mixes" class="nav-link">MIXES</a>
+        <a href="#media" class="nav-link">MEDIA</a>
+        <a href="#contact" class="nav-link">CONTACT</a>
     </nav>
 
-    <!-- HOME Section -->
     <section id="home">
         <div class="logo-container">
-            <img src="https://raw.githubusercontent.com/OCLmusic/OCL-WEBSITE-ASSETS/refs/heads/main/OC%20LOGO-01.svg" style="transform: scale(1.7);" alt="OCL Logo">
+            <img src="https://raw.githubusercontent.com/OCLmusic/OCL-WEBSITE-ASSETS/refs/heads/main/OC%20LOGO-01.svg" alt="OCL Logo">
         </div>
         <div class="home-socials">
             <a href="https://www.instagram.com/ossiel__lopez/" target="_blank">
@@ -636,13 +580,10 @@
         </div>
     </section>
 
-    <!-- ABOUT Section -->
     <section id="about">
         <div class="about-container">
             <div class="about-image">
-              
-				<img src="https://raw.githubusercontent.com/OCLmusic/OFFICIAL-OCL-WEB/refs/heads/main/DSC02913.JPG" alt="OCL">
-                
+                <img src="https://raw.githubusercontent.com/OCLmusic/OFFICIAL-OCL-WEB/refs/heads/main/DSC02913.JPG" alt="OCL">
             </div>
             <div class="about-content">
                 <h2>ABOUT</h2>
@@ -651,7 +592,7 @@
                 <div class="past-performances">
                     <h3>(Past Performances)</h3>
                     <ul>
-                        <li>Church Nightclub (Opened For DEORRO)&nbsp;&nbsp;</li>
+                        <li>Church Nightclub (Opened For DEORRO)</li>
                         <li>Temple Nightclub</li>
                         <li>Larimer Lounge</li>
                         <li>DV8</li>
@@ -661,88 +602,58 @@
         </div>
     </section>
 
-    <!-- MUSIC Section -->
     <section id="music">
         <div class="music-container">
             <h2>MUSIC</h2>
             
-	
-			 <div class="embed-container">
-           <iframe width="100%" height="250" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2005375943&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/oc-lopez" title="OCL" target="_blank" style="color: #cccccc; text-decoration: none;"></a>  <a href="https://soundcloud.com/oc-lopez/da5135dc-68f3-4ab5-93a7-48ea09e3f3ba" title="Bad Bunny-EL CLúB (OCL REMIX) FREE DOWNLOAD" target="_blank" style="color: #cccccc; text-decoration: none;"></a></div>
+            <div class="embed-container">
+                <iframe width="100%" height="250" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2005375943&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
             </div>
-			
-			<div class="embed-container">
-             <iframe width="100%" height="250" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2105173293&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/oc-lopez" title="OCL" target="_blank" style="color: #cccccc; text-decoration: none;"></a>  <a href="https://soundcloud.com/oc-lopez/karol-g-latina-foreva-ocl-remix" title="Karol G - Latina Foreva (OCL REMIX) FREE DOWNLOAD" target="_blank" style="color: #cccccc; text-decoration: none;"></a></div>
+            
+            <div class="embed-container">
+                <iframe width="100%" height="250" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2105173293&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
             </div>
 
-			
-			
-         
-            <!-- Spotify Embed 2 -->
             <div class="embed-container">
-                <iframe data-testid="embed-iframe" style="border-radius:0px" src="https://open.spotify.com/embed/track/5gJrZpjB3ZKkqLk62hhO6m?utm_source=generator&theme=0" width="100%" height="250" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                <iframe style="border-radius:0px" src="https://open.spotify.com/embed/track/5gJrZpjB3ZKkqLk62hhO6m?utm_source=generator&theme=0" width="100%" height="250" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
         </div>
     </section>
 
-    <!-- MIXES Section -->
     <section id="mixes">
         <div class="music-container">
             <h2>MIXES</h2>
             
-            <!-- SoundCloud Embed 1 -->
             <div class="embed-container">
                 <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=YOUR_SOUNDCLOUD_TRACK_URL_1&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
             </div>
 
-            <!-- SoundCloud Embed 2 -->
             <div class="embed-container">
-                <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/track/5gJrZpjB3ZKkqLk62hhO6m?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/5gJrZpjB3ZKkqLk62hhO6m?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
         </div>
     </section>
 
-    <!-- MEDIA Section -->
     <section id="media">
         <div class="media-container">
             <h2>MEDIA</h2>
             
             <div class="video-grid">
-                <!-- Video 1 -->
                 <div class="video-container">
-					<iframe width="560" height="315"
-        src="https://www.youtube.com/embed/unYaBaKI7nQ"
-        frameborder="0" allowfullscreen></iframe>
-                   
-                   
-                
-					
-                    <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #666;">VIDEO 1</div>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/unYaBaKI7nQ" frameborder="0" allowfullscreen></iframe>
                 </div>
 
-                <!-- Video 2 -->
                 <div class="video-container">
-					
-					<iframe width="560" height="315"
-        src="https://www.youtube.com/embed/FVJQkdSvF0M"
-        frameborder="0" allowfullscreen></iframe>
-					
-                    <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #666;">VIDEO 2</div>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/FVJQkdSvF0M" frameborder="0" allowfullscreen></iframe>
                 </div>
 
-                <!-- Video 3 -->
                 <div class="video-container">
-					<iframe width="560" height="315"
-        src="https://www.youtube.com/embed/0UwAGiCAras"
-        frameborder="0" allowfullscreen></iframe>
-					
-                    <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #666;">VIDEO 3</div>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/0UwAGiCAras" frameborder="0" allowfullscreen></iframe>
                 </div>
-          </div>
+            </div>
         </div>
     </section>
 
-    <!-- CONTACT Section -->
     <section id="contact">
         <div class="contact-container">
             <h2>CONTACT</h2>
@@ -782,28 +693,21 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
-	
         <a href="#home">
-			<img src="https://raw.githubusercontent.com/OCLmusic/OCL-WEBSITE-ASSETS/refs/heads/main/OC%20LOGO-01.svg"  alt="ocl logo" width="300"> 
-			</a>
-		
-            
-        <p>© 2025 OCL · Denver, CO  · Producer  · DJ</p>
+            <img src="https://raw.githubusercontent.com/OCLmusic/OCL-WEBSITE-ASSETS/refs/heads/main/OC%20LOGO-01.svg" alt="ocl logo" width="300"> 
+        </a>
+        <p>© 2025 OCL · Denver, CO · Producer · DJ</p>
     </footer>
 
     <script>
-        // Active nav highlighting on scroll
         window.addEventListener('scroll', () => {
             let current = '';
             const sections = document.querySelectorAll('section');
-            const navLinks = document.querySelectorAll('nav a');
+            const navLinks = document.querySelectorAll('nav a.nav-link');
 
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                // Adjusted to better detect sections, especially shorter ones
                 if (scrollY >= (sectionTop - 150)) {
                     current = section.getAttribute('id');
                 }
@@ -817,19 +721,16 @@
             });
         });
 
-        // Set active state on page load
         window.addEventListener('load', () => {
-            const navLinks = document.querySelectorAll('nav a');
+            const navLinks = document.querySelectorAll('nav a.nav-link');
             if (window.scrollY === 0) {
-                navLinks[0].classList.add('active'); // Highlight HOME on load
+                navLinks[0].classList.add('active');
             }
         });
 
-        // HAMBURGER FUNCTIONALITY: toggles nav.open class which reveals nav links on small screens
         const hamburger = document.getElementById('hamburger');
         const nav = document.getElementById('navbar');
 
-        // keyboard accessibility: toggle on Enter/Space
         hamburger.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -842,11 +743,9 @@
             nav.classList.toggle('open');
         });
 
-        // Close mobile menu when clicking a nav link (mobile behavior)
-        const navLinks = document.querySelectorAll('nav a');
+        const navLinks = document.querySelectorAll('nav a.nav-link');
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
-                // only close if menu is open (mobile)
                 if (nav.classList.contains('open')) {
                     hamburger.classList.remove('active');
                     nav.classList.remove('open');
