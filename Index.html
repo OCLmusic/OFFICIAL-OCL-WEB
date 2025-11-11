@@ -48,14 +48,8 @@
             transition: color 0.3s ease;
         }
 
-        nav a.mobile-nav-logo {
-            font-size: 0;
-            letter-spacing: 0;
-            text-transform: none;
-        }
-
-        nav a.active {
-            color: #1a1a1a;
+        nav a.active::after {
+            width: 100%;
         }
 
         nav a::after {
@@ -69,26 +63,8 @@
             transition: width 0.3s ease;
         }
 
-        nav a.mobile-nav-logo::after {
-            display: none;
-        }
-
-        nav a.active::after {
-            width: 100%;
-        }
-
         nav a:hover::after {
             width: 100%;
-        }
-
-        /* Mobile Logo in Nav */
-        .mobile-nav-logo {
-            display: none;
-        }
-
-        .mobile-nav-logo img {
-            height: 40px;
-            width: auto;
         }
 
         /* Hamburger */
@@ -124,6 +100,12 @@
         
         .hamburger.active span:nth-child(3) {
             transform: rotate(-45deg) translateY(-7px);
+        }
+
+        /* Mobile logos - hidden by default */
+        .mobile-menu-logo,
+        .mobile-scroll-logo {
+            display: none;
         }
 
         /* Home Social Icons */
@@ -435,40 +417,117 @@
             background: #f3f4f1;
         }
 
+        footer a img {
+            width: 300px;
+            max-width: 100%;
+            height: auto;
+        }
+
         footer p {
             font-size: 0.85rem;
             letter-spacing: 2px;
             color: #666;
+            margin-top: 20px;
         }
 
-        /* Responsive */
+        /* Responsive - MOBILE */
         @media (max-width: 768px) {
             .hamburger {
                 display: flex;
             }
 
             nav {
-                padding: 30px 20px;
-                gap: 30px;
+                padding: 28px 20px;
             }
 
-            nav a {
-                font-size: 0.75rem;
-                letter-spacing: 2px;
+            /* Hide desktop nav links by default */
+            nav a[href="#home"],
+            nav a[href="#about"],
+            nav a[href="#music"],
+            nav a[href="#mixes"],
+            nav a[href="#media"],
+            nav a[href="#contact"] {
                 display: none;
-                opacity: 0;
-                transition: opacity 0.25s ease;
             }
 
+            /* Show mobile menu logo in dropdown */
+            .mobile-menu-logo {
+                display: none !important;
+            }
+
+            .mobile-menu-logo img {
+                height: 50px;
+                width: auto;
+            }
+
+            .mobile-menu-logo::after {
+                display: none;
+            }
+
+            /* Mobile scroll logo - centered in nav bar */
+            .mobile-scroll-logo {
+                display: block !important;
+                position: fixed;
+                left: 50%;
+                top: 0;
+                margin-top: 10px;
+                transform: translate(-50%, 0);
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+                z-index: 200;
+            }
+
+            .mobile-scroll-logo img {
+                display: block;
+            }
+
+            .mobile-scroll-logo.show {
+                opacity: 1 !important;
+                visibility: visible !important;
+                pointer-events: auto !important;
+            }
+
+            .mobile-scroll-logo img {
+                height: 40px;
+                width: auto;
+            }
+
+            .mobile-scroll-logo::after {
+                display: none;
+            }
+
+            /* When menu is open */
             nav.open {
                 flex-direction: column;
                 align-items: center;
             }
-            
-            nav.open a {
+
+            nav.open .mobile-menu-logo {
                 display: block;
-                opacity: 1;
+                margin-bottom: 20px;
+                order: -1; /* Put it at the top */
+            }
+            
+            nav.open a[href="#home"],
+            nav.open a[href="#about"],
+            nav.open a[href="#music"],
+            nav.open a[href="#mixes"],
+            nav.open a[href="#media"],
+            nav.open a[href="#contact"] {
+                display: block;
                 padding: 10px 0;
+                font-size: 1rem;
+            }
+
+            /* Keep scroll logo absolutely positioned, not in the flex flow */
+            nav.open .mobile-scroll-logo {
+                position: fixed;
+                left: 50%;
+                top: 0;
+                margin-top: 10px;
+                transform: translate(-50%, 0);
             }
 
             section {
@@ -518,6 +577,10 @@
             footer {
                 padding: 30px 20px;
             }
+
+            footer a img {
+                width: 200px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -534,27 +597,38 @@
             .home-socials img {
                 height: 24px;
             }
+
+            footer a img {
+                width: 150px;
+            }
         }
     </style>
 </head>
 <body>
     <nav id="navbar">
-        <div class="hamburger" id="hamburger" aria-label="Toggle menu" role="button" tabindex="0">
+        <div class="hamburger" id="hamburger">
             <span></span>
             <span></span>
             <span></span>
         </div>
 
-        <a href="#home" class="mobile-nav-logo">
+        <!-- Mobile scroll logo - only shows on mobile when scrolled, always centered in nav -->
+        <a href="#home" class="mobile-scroll-logo" id="mobileScrollLogo">
             <img src="https://raw.githubusercontent.com/OCLmusic/OCL-WEBSITE-ASSETS/refs/heads/main/OC%20LOGO-01.svg" alt="OCL">
         </a>
 
-        <a href="#home" class="nav-link">HOME</a>
-        <a href="#about" class="nav-link">ABOUT</a>
-        <a href="#music" class="nav-link">MUSIC</a>
-        <a href="#mixes" class="nav-link">MIXES</a>
-        <a href="#media" class="nav-link">MEDIA</a>
-        <a href="#contact" class="nav-link">CONTACT</a>
+        <!-- Desktop nav links -->
+        <a href="#home">HOME</a>
+        <a href="#about">ABOUT</a>
+        <a href="#music">MUSIC</a>
+        <a href="#mixes">MIXES</a>
+        <a href="#media">MEDIA</a>
+        <a href="#contact">CONTACT</a>
+
+        <!-- Mobile menu logo - shows at top of dropdown when menu is open -->
+        <a href="#home" class="mobile-menu-logo">
+            <img src="https://raw.githubusercontent.com/OCLmusic/OCL-WEBSITE-ASSETS/refs/heads/main/OC%20LOGO-01.svg" alt="OCL">
+        </a>
     </nav>
 
     <section id="home">
@@ -695,62 +769,84 @@
 
     <footer>
         <a href="#home">
-            <img src="https://raw.githubusercontent.com/OCLmusic/OCL-WEBSITE-ASSETS/refs/heads/main/OC%20LOGO-01.svg" alt="ocl logo" width="300"> 
+            <img src="https://raw.githubusercontent.com/OCLmusic/OCL-WEBSITE-ASSETS/refs/heads/main/OC%20LOGO-01.svg" alt="ocl logo"> 
         </a>
         <p>© 2025 OCL · Denver, CO · Producer · DJ</p>
     </footer>
 
     <script>
-        window.addEventListener('scroll', () => {
-            let current = '';
-            const sections = document.querySelectorAll('section');
-            const navLinks = document.querySelectorAll('nav a.nav-link');
-
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (scrollY >= (sectionTop - 150)) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href').slice(1) === current) {
-                    link.classList.add('active');
-                }
-            });
-        });
-
-        window.addEventListener('load', () => {
-            const navLinks = document.querySelectorAll('nav a.nav-link');
-            if (window.scrollY === 0) {
-                navLinks[0].classList.add('active');
-            }
-        });
-
         const hamburger = document.getElementById('hamburger');
         const nav = document.getElementById('navbar');
+        const mobileScrollLogo = document.getElementById('mobileScrollLogo');
+        const logoContainer = document.querySelector('.logo-container');
 
-        hamburger.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                hamburger.click();
-            }
-        });
-
+        // Hamburger menu toggle
         hamburger.addEventListener('click', () => {
             hamburger.classList.toggle('active');
             nav.classList.toggle('open');
         });
 
-        const navLinks = document.querySelectorAll('nav a.nav-link');
-        navLinks.forEach(link => {
+        // Close menu when clicking any link
+        document.querySelectorAll('nav a').forEach(link => {
             link.addEventListener('click', () => {
                 if (nav.classList.contains('open')) {
                     hamburger.classList.remove('active');
                     nav.classList.remove('open');
                 }
             });
+        });
+
+        // Mobile scroll logo visibility
+        function updateMobileScrollLogo() {
+            if (window.innerWidth <= 768 && logoContainer && mobileScrollLogo) {
+                const logoRect = logoContainer.getBoundingClientRect();
+                
+                // Only show when big logo has completely scrolled off screen
+                if (logoRect.bottom <= 0) {
+                    mobileScrollLogo.classList.add('show');
+                } else {
+                    mobileScrollLogo.classList.remove('show');
+                }
+            } else if (window.innerWidth > 768) {
+                // Remove on desktop
+                mobileScrollLogo.classList.remove('show');
+            }
+        }
+
+        window.addEventListener('scroll', () => {
+            updateMobileScrollLogo();
+
+            // Active nav highlighting
+            let current = '';
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav a:not(.mobile-menu-logo):not(.mobile-scroll-logo)');
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (window.scrollY >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Set HOME as active on load
+        window.addEventListener('load', () => {
+            if (window.scrollY === 0) {
+                const homeLink = document.querySelector('nav a[href="#home"]:not(.mobile-menu-logo):not(.mobile-scroll-logo)');
+                if (homeLink) homeLink.classList.add('active');
+            }
+            // Make sure mobile scroll logo is hidden on load
+            if (mobileScrollLogo) {
+                mobileScrollLogo.classList.remove('show');
+            }
+            updateMobileScrollLogo();
         });
     </script>
 </body>
